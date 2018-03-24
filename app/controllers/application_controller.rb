@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
         "errors": [
             {
                 "status": 'error',
-                "code": code
+                "code": code,
                 "title":  title,
                 "detail": detail
             }
