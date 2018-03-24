@@ -1,16 +1,17 @@
 class ApplicationController < ActionController::API
 
-  def error_json(status, title, detail)
+  def error_json(code, title, detail)
     json = {
         "errors": [
             {
-                "status": status,
+                "status": 'error',
+                "code": code
                 "title":  title,
                 "detail": detail
             }
         ]
     }
-    render json: json, status: status
+    render json: json, status: 'error'
   end
 
 end

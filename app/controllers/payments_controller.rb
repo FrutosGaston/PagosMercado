@@ -6,7 +6,7 @@ class PaymentsController < ApplicationController
     user = User.where(username: start_params[:username], password: start_params[:password]).first
     payment = Payment.create!(amount: start_params[:amount], user: user)
 
-    render json: { status: 200, message: 'La operacion se inicio con exito', token: payment.token }
+    render json: { status: 'success', code: 200, message: 'La operacion se inicio con exito', data: { token: payment.token } }
   rescue Payment::INVALID_CARD
     error_json('400', 'La tarjeta es invalida', 'No se puede procesar la tarjeta enviada')
   end
@@ -17,7 +17,7 @@ class PaymentsController < ApplicationController
     payment.validate_amount!(amount)
     payment.user.increment(:balance, by: amount)
 
-    render json: { status: 200, message: 'El pago se realizo exitosamente!' }
+    render json: { status: 'success', code: 200, message: 'El pago se realizo exitosamente!' }
   rescue RecordNotFound
     payment.update(failed: true)
     error_json('404', 'La operacion no existe', 'No se pudo encontrar una operacion con el token dado')
