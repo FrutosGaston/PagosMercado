@@ -1,8 +1,9 @@
 AllCops:
   Exclude:
     - 'vendor/**/*'
-    - 'db/*'
-    - 'bin/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'config/**/*'
 Documentation:
   Enabled: false
 Metrics/LineLength:
@@ -13,3 +14,5 @@ Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context', 'shared_examples']
   Exclude:
     - 'config/routes.rb'
+Style/FrozenStringLiteralComment:
+  Enabled: false
