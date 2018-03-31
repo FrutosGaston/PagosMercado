@@ -1,0 +1,15 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/*'
+    - 'bin/*'
+Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Max: 120
+Metrics/ClassLength:
+  Max: 150
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context', 'shared_examples']
+  Exclude:
+    - 'config/routes.rb'
