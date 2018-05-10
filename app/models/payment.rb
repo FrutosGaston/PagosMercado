@@ -14,13 +14,19 @@ class Payment < ApplicationRecord
   after_initialize :assign_token
 
   class << self
-    def validate_credit_card(card_number: VALID_CARD_NUMBER, expiration_year: 20, expiration_month: 5, name: VALID_NAME)
+    def validate_credit_card(card_number: nil, expiration_year: nil, expiration_month: nil, name: nil)
       errors = []
       errors << INVALID_DATE_ERROR unless valid_dates(expiration_year, expiration_month)
       errors << INVALID_NUMBER_ERROR unless card_number == '4509953566233704'
       errors << INVALID_NAME_ERROR unless name == 'APRO'
 
       { valid: errors.empty?, errors: errors }
+    end
+
+    def valid_dates(expiration_year, expiration_month)
+      current_year = Date.today.strftime('%y').to_i
+      valid_month = expiration_year == current_year ? expiration_month > Date.today.month : true
+      expiration_year >= current_year && valid_month
     end
   end
 
@@ -29,12 +35,6 @@ class Payment < ApplicationRecord
   end
 
   private
-
-  def valid_dates(expiration_year, expiration_month)
-    current_year = Date.today.year - 2000
-    valid_month = expiration_year == current_year ? expiration_month > Date.today.month : true
-    expiration_year >= current_year && valid_month
-  end
 
   def assign_token
     token_length = 20

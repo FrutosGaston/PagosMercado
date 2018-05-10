@@ -6,7 +6,7 @@ class PaymentsController < ApplicationController
 
     if card_validation[:valid]
       render json: { status: 'success', code: 200, message: 'La operacion se inicio con exito',
-                     data: { token: payment.token } }
+                     data: { token: payment.token } }, status: 200
     else
       error_json('400', 'La tarjeta es invalida', card_validation[:errors])
     end
@@ -14,7 +14,7 @@ class PaymentsController < ApplicationController
 
   def credit
     complete_payment
-    render json: { status: 'success', code: 200, message: 'El pago se realizo exitosamente!' }
+    render json: { status: 'success', code: 200, message: 'El pago se realizo exitosamente!' }, status: 200
   rescue RecordNotFound
     current_payment.update(failed: true)
     error_json('404', 'La operacion no existe', 'No se pudo encontrar una operacion con el token dado')
