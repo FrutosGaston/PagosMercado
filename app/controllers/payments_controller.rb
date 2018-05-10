@@ -15,7 +15,7 @@ class PaymentsController < ApplicationController
   def credit
     complete_payment
     render json: { status: 'success', code: 200, message: 'El pago se realizo exitosamente!' }, status: 200
-  rescue RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     current_payment.update(failed: true)
     error_json('404', 'La operacion no existe', 'No se pudo encontrar una operacion con el token dado')
   rescue Payment::DIFFERENT_AMOUNTS
