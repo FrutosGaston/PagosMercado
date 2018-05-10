@@ -26,8 +26,8 @@ class PaymentsController < ApplicationController
   private
 
   def complete_payment
-    current_payment.validate_amount!(amount)
-    current_payment.user.increment(:balance, by: amount)
+    current_payment.validate_amount!(amount.to_f)
+    current_payment.user.increment(:balance, by: amount.to_f)
   end
 
   def amount
