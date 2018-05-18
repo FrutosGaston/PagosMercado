@@ -1,8 +1,8 @@
 class PaymentsController < ApplicationController
   def start
     card_validation = validate_payment
-    user = User.find_by(username: start_params[:username], password: start_params[:password])
-    payment = Payment.create!(amount: start_params[:amount], user: user)
+    # user = User.find_by(username: start_params[:username], password: start_params[:password])
+    payment = Payment.create!(amount: start_params[:amount])
 
     if card_validation[:valid]
       render json: { status: 'success', code: 200, message: 'La operacion se inicio con exito',
@@ -27,7 +27,7 @@ class PaymentsController < ApplicationController
 
   def complete_payment
     current_payment.validate_amount!(amount)
-    current_payment.user.increment(:balance, amount)
+    # current_payment.user.increment(:balance, amount)
   end
 
   def amount
