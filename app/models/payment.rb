@@ -6,7 +6,7 @@ class Payment < ApplicationRecord
   VALID_CARD_NUMBER = '4509953566233704'.freeze
   VALID_NAME = 'APRO'.freeze
 
-  belongs_to :user
+  # belongs_to :user
 
   validates_uniqueness_of :token
   validates_presence_of :token, :amount

@@ -6,7 +6,6 @@ describe Payment do
   it { expect(subject).to validate_uniqueness_of :token }
 
   describe 'Validate that the credit card exists' do
-
     it 'when the attributes are the expected ones' do
       next_year = 1.year.from_now.strftime('%y').to_i
       valid = described_class.validate_credit_card(card_number: Payment::VALID_CARD_NUMBER, name: Payment::VALID_NAME,
@@ -54,6 +53,5 @@ describe Payment do
       expect(valid[:valid]).to eq false
       expect(valid[:errors].length).to eq 2
     end
-
   end
 end
