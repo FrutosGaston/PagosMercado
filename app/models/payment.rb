@@ -17,8 +17,8 @@ class Payment < ApplicationRecord
     def validate_credit_card(card_number: nil, expiration_year: nil, expiration_month: nil, name: nil)
       errors = []
       errors << INVALID_DATE_ERROR unless valid_dates(expiration_year, expiration_month)
-      errors << INVALID_NUMBER_ERROR unless card_number == '4509953566233704'
-      errors << INVALID_NAME_ERROR unless name == 'APRO'
+      errors << INVALID_NUMBER_ERROR unless card_number == VALID_CARD_NUMBER
+      errors << INVALID_NAME_ERROR unless name == VALID_NAME
 
       { valid: errors.empty?, errors: errors }
     end
