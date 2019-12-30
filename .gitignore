@@ -15,5 +15,6 @@
 .idea
 /vendor/*
 /tmp
+/test_results
 
 .byebug_history
