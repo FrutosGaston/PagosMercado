@@ -9,7 +9,7 @@ describe UsersController, type: :controller do
 
       post :create, params: { username: username, password: 'ContraseniaPepito123' }
 
-      expect(response).to be_success
+      expect(response).to have_http_status 200
       expect(User.count).to eq users + 1
     end
 
@@ -19,7 +19,7 @@ describe UsersController, type: :controller do
 
       post :create, params: { username: username, password: 'ContraseniaPepito123' }
 
-      expect(response).not_to be_success
+      expect(response).not_to have_http_status 200
       expect(User.count).to eq users
     end
 
@@ -28,7 +28,7 @@ describe UsersController, type: :controller do
 
       post :create, params: { username: username, password: '' }
 
-      expect(response).not_to be_success
+      expect(response).to have_http_status 422
       expect(User.count).to eq users
     end
 
@@ -37,7 +37,7 @@ describe UsersController, type: :controller do
 
       post :create, params: { username: '', password: 'ContraseniaPepito123' }
 
-      expect(response).not_to be_success
+      expect(response).not_to have_http_status 200
       expect(User.count).to eq users
     end
   end
