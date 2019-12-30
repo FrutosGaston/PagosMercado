@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/PagosMercado
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/ruby:2.6.5
         environment:
           PGHOST: localhost
           PGUSER: PM_test
