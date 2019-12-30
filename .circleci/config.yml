@@ -1,0 +1,55 @@
+---
+version: 2
+jobs:
+  build:
+    working_directory: ~/PagosMercado
+    docker:
+      - image: circleci/ruby:2.6.5
+        environment:
+          PGHOST: localhost
+          PGUSER: PM_test
+          RAILS_ENV: test
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: PM_test
+          POSTGRES_DB: PM_test
+          POSTGRES_PASSWORD: ""
+    steps:
+      - checkout
+
+      - type: cache-restore
+        name: Restore bundle cache
+        key: PM-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Bundle install
+          command: bundle install --path vendor/bundle
+
+      - type: cache-save
+        name: Store bundle cache
+        key: PM-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: bin/rails db:schema:load --trace
+
+      - run:
+          name: Run rspec in parallel
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+
+      - run:
+          name: rubocop
+          command: |
+            bundle exec rubocop

@@ -1,6 +1,7 @@
+require_relative './concerns/responses.rb'
+require_relative './concerns/exception_handler.rb'
+
 class ApplicationController < ActionController::API
-  def error_json(code, title, detail)
-    json = { errors: [{ status: 'error', code: code, title: title, detail: detail }] }
-    render json: json, status: code
-  end
+  include Response
+  include ExceptionHandler
 end
