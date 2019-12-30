@@ -1,16 +1,15 @@
 class UsersController < ApplicationController
-
   before_action :set_user, only: [:show]
 
   def create
     user = User.new(user_params)
 
     user.save!
-    json_response({ message: 'Usuario creado correctamente', user: user })
+    json_response(message: 'Usuario creado correctamente', user: user)
   end
 
   def show
-    json_response(@user, 200)
+    json_response @user
   end
 
   private

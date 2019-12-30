@@ -1,5 +1,4 @@
 class PaymentsController < ApplicationController
-
   def create
     complete_payment
     message_response 'El pago se realizo exitosamente'
@@ -22,5 +21,4 @@ class PaymentsController < ApplicationController
   def current_payment
     @current_payment ||= Payment.find_by!(token: params[:token])
   end
-
 end

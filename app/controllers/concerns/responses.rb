@@ -1,7 +1,6 @@
 module Response
-
   def message_response(message, status = :ok)
-    json_response({message: message }, status)
+    json_response({ message: message }, status)
   end
 
   def json_response(json, status = :ok)

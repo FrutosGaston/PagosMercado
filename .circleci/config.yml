@@ -1,0 +1,50 @@
+---
+version: 2
+jobs:
+  build:
+    working_directory: ~/PagosMercado
+    docker:
+      - image: circleci/ruby:2.4.1
+        environment:
+          PGHOST: localhost
+          PGUSER: PM_test
+          RAILS_ENV: test
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: PM_test
+          POSTGRES_DB: PM_test
+          POSTGRES_PASSWORD: ""
+    steps:
+      - checkout
+
+      # Restore Cached Dependencies
+      - type: cache-restore
+        name: Restore bundle cache
+        key: PM-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Cache Dependencies
+      - type: cache-save
+        name: Store bundle cache
+        key: PM-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Setup the environment
+      - run: cp .sample.env .env
+
+      # Setup the database
+      - run: bundle exec rake db:setup
+
+      # Run the tests
+      - run: bundle exec rake
+
+      - run:
+          name: rubocop
+          command: |
+            bundle exec rubocop

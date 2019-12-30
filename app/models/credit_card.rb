@@ -4,6 +4,7 @@ class CreditCard
   INVALID_NAME_ERROR = 'El nombre del portador es invalido'.freeze
   VALID_CARD_NUMBER = '4509953566233704'.freeze
   VALID_NAME = 'APRO'.freeze
+  VALID_CVV = '123'.freeze
 
   attr_accessor :card_number, :expiration_year, :expiration_month, :name
 
